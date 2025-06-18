@@ -3,7 +3,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-df = pd.read_csv('MOCK_DATA.csv')
+df = pd.read_csv('MOCK_DATA-binomial.csv')
 
 # Separate features and target variable
 X = df.drop('pass', axis=1)
