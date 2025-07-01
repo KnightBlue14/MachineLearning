@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
@@ -10,10 +10,10 @@ X = df.drop('pass', axis=1)
 y = df['pass']
 
 # Split the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=1)
 
 # Create a Logistic Regression model
-model = LogisticRegression(max_iter=1000, random_state=0)
+model = MultinomialNB()
 
 # Train the model on the training data
 model.fit(X_train, y_train)
