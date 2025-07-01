@@ -7,13 +7,14 @@ df = pd.read_csv('MOCK_DATA-binomial.csv')
 
 # Separate features and target variable
 X = df.drop('pass', axis=1)
+X = X.drop('student_id', axis = 1)
 y = df['pass']
 
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Create a Logistic Regression model
-model = LogisticRegression(max_iter=1000, random_state=0)
+model = LogisticRegression(max_iter=10000, random_state=0)
 
 # Train the model on the training data
 model.fit(X_train, y_train)

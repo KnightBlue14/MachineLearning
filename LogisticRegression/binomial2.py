@@ -7,10 +7,10 @@ from sklearn.metrics import accuracy_score
 def fix_the_file():
     df = pd.read_csv('MOCK_DATA-binomial2.csv')
 
-    gender_map = {'Male': 0, 'Female': 1}
+    sex_map = {'Male': 0, 'Female': 1}
     bool_map = {True:1,False:0}
 
-    df['gender'] = df['gender'].map(gender_map)
+    df['sex'] = df['sex'].map(sex_map)
     df['heart_attack_last_5_years'] = df['heart_attack_last_5_years'].map(bool_map)
 
     df.to_csv('MOCK_DATA-binomial2-fixed.csv', index=False)
@@ -20,6 +20,7 @@ def binomial(test_size_input,random_state_input):
     df = pd.read_csv('MOCK_DATA-binomial2-fixed.csv')
 
     X = df.drop('heart_attack_last_5_years', axis=1)
+    #X = X.drop('id', axis = 1)
     y = df['heart_attack_last_5_years']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size_input, random_state=random_state_input)
