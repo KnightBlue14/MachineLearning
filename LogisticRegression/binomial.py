@@ -7,7 +7,6 @@ df = pd.read_csv('MOCK_DATA-binomial.csv')
 
 # Separate features and target variable
 X = df.drop('pass', axis=1)
-X = X.drop('student_id', axis = 1)
 y = df['pass']
 
 # Split the dataset into training and testing sets
