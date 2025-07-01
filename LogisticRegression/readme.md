@@ -1,7 +1,7 @@
 # Logistic Regression
 Logistic regression is a machine learning algorithm used for classification - that is, determing whether an input belongs to a pre-defined class. It does this by first being trained on large datasets featuring several variables, and using these to determine the probability that the new input will fall into the chosen category.
 ## Description
-This repo will be split into a number of sections, as I go over multiple stages and types of LR. This will be much more explaining how it works rather than changing any code, as the method is mostly ste, though there are things we can do to play around with it.
+This repo will be split into a number of sections, as I go over multiple stages and types of LR. This will be much more explaining how it works rather than changing any code, as the method is mostly set, though there are things we can do to play around with it.
 
 # Getting the data
 The first step is retrieving our dataset. In my case, I used a website called mockaroo -
