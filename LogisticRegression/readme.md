@@ -83,7 +83,17 @@ For this we need an additional model - pickle, which is included in Python. Goin
 ```
 Accuracy: 0.9685185185185186
 ```
+
 The same score as in our multinomial example.
+
+To be extra sure that this is not a fluke, we can actually change the distribution of test data by changing the random_state variable as well, changing which data is put into the test or train components.
+
+Setting it to 25 gives an accuracy of -
+```
+Accuracy: 0.9907407407407407
+```
+
+And note, in import.py at no point do we retrain the model. We only make use of a reshuffled testing dataset, and still have a very high accuracy. So here we've just created, exported, imported and tested a new LR model, which can make accurate predictions from our dataset.
 
 # Final thoughts
 
