@@ -22,7 +22,7 @@ Accuracy is the measure of how well our model compares to the actual test data, 
 # Further steps
 In this section, we will add some additional steps, both to improve the readability of our dataset, and the accuracy of our readout - that is, not specifically the accuracy of the model, but our reading of what the actual accuracy is.
 
-For this case, we will be predicting the likelihood that a person, based on age, weight, habits and exercise routines, will suffer a heart attack, using data from patients, some of which have suffered heart attacks previously. 
+For this case, we will be predicting the likelihood that a person, based on age, weight, habits and exercise routines, will suffer a heart attack, using data from patients, some of which have suffered heart attacks previously. The file for this is binomial2.py.
 
 Our first issue is the data we have recieved - we want to drop the id column, as it doesn't actually help with our investigation, and the 'sex' and 'Suffered' columns are in types that we can't currently use, strings and booleans. To resolve this, we can drop the id column entirely, in the same way we drop the target column for testing. As for the other two, we can set up a function to clean the dataset -
 
@@ -41,7 +41,7 @@ Our first issue is the data we have recieved - we want to drop the id column, as
 Now, the sexes and booleans are numbers. In the case that your categories are more varied, you can map them to more numbers - only the target category needs to be a binary.
 
 That done, setup is much the same as before - we split the dataset, train it, then compare the prediction to the actual output. Here, I've added a function to run through multiple test sizes and states, to show how changing these can affect the accuracy of the model -
-```andom_state_list = random.sample(range(1, 101), 5)
+```random_state_list = random.sample(range(1, 101), 5)
 test_size_list = [0.01,0.1,0.2,0.5,0.75]
 
 df_acc = pd.DataFrame()
@@ -64,3 +64,27 @@ In this case, 5 random numbers are used to shuffle the dataset before splitting 
 4  0.526667  0.509333  0.522667  0.505333  0.505333
 ```
 In this case, our accuracy is around %50, with the top row varying so wildy due to the small test data size of %1, suggesting that our model will predict correctly around half the time. This is likely due to my test data being randomly generated, rather than curated from actual patient data, as any real-world correlation would be much more apparent.
+
+# Multinomial
+
+Another form of LR we can carry out is Multinomial regression, in 'multinomial.py'. This is used in cases where your categories are in 2 or more unordered classes - for instance, different animals, different cars, different weather types, etc. Setup is much the same, though in this case I will be using a dataset featured with scikit-learn, as it avoids the potential issues outlined with my other datasets earlier. I have also featured the Kneighbours classifier, as another metric to check the accuracy of our model
+
+```
+Accuracy: 0.9685185185185186
+KNN score: 0.9907407407407407
+```
+Here, we can see that the accuracy is very high in both cases, meaning that our model is likely very accurate, helped in no small part by the dataset used in this example.
+
+# Exporting Models
+
+That's all well and good, but as is, all we're doing is training models. How do we go about actually using them in a real world example?
+
+For this we need an additional model - pickle, which is included in Python. Going through export.py, we can set up our model just as before, but now export it in a 'pkl' file. Then, in import.py, we recollect it, then apply it to our test data, giving an accuracy of
+```
+Accuracy: 0.9685185185185186
+```
+The same score as in our multinomial example.
+
+# Final thoughts
+
+This is a relatively straightforward example of using Machine Learning tools in your workflow, and would typically be done with much larger, more complex datasets, but the underlying logic is much the same. These tools can then be incorprated into much larger pipelines, or developed further with visualisations or multi-tiered operations.
