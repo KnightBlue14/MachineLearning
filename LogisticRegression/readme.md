@@ -79,7 +79,7 @@ Here, we can see that the accuracy is very high in both cases, meaning that our 
 
 That's all well and good, but as is, all we're doing is training models. How do we go about actually using them in a real world example?
 
-For this we need an additional model - pickle, which is included in Python. Going through export.py, we can set up our model just as before, but now export it in a 'pkl' file. Then, in import.py, we recollect it, then apply it to our test data, giving an accuracy of
+For this we need an additional module - pickle, which is included in Python. Going through export.py, we can set up our model just as before, but now export it in a 'pkl' file. Then, in import.py, we recollect it, then apply it to our test data, giving an accuracy of
 ```
 Accuracy: 0.9685185185185186
 ```
