@@ -1,8 +1,18 @@
+import matplotlib.pyplot as plt
+
 import torch
 from torch import nn
+from torch.utils.data import DataLoader
 
 import torch.nn.functional as F
+import torchvision.datasets as datasets
+import torchvision.transforms as transforms
 
+batch_size = 60
+train_dataset = datasets.MNIST(root="dataset/", download=True, train=True, transform=transforms.ToTensor())
+train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
+test_dataset = datasets.MNIST(root="dataset/", download=True, train=False, transform=transforms.ToTensor())
+test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True)
 
 class CNN(nn.Module):
     def __init__(self, in_channels, num_classes):
@@ -26,26 +36,44 @@ class CNN(nn.Module):
     
     def forward(self, x):
 
-        #    Define the forward pass of the neural network.
-
-        #    Parameters:
-        #        x: Input tensor.
-
-        #    Returns:
-        #        torch.Tensor
-        #            The output tensor after passing through the network.
-
-       x = F.relu(self.conv1(x))  # Apply first convolution and ReLU activation
-       x = self.pool(x)           # Apply max pooling
-       x = F.relu(self.conv2(x))  # Apply second convolution and ReLU activation
-       x = self.pool(x)           # Apply max pooling
-       x = x.reshape(x.shape[0], -1)  # Flatten the tensor
-       x = self.fc1(x)            # Apply fully connected layer
+       x = F.relu(self.conv1(x))  
+       x = self.pool(x)           
+       x = F.relu(self.conv2(x))  
+       x = self.pool(x)           
+       x = x.reshape(x.shape[0], -1)  
+       x = self.fc1(x)            
        return x
 
-# Create a new model
 loaded_model = CNN(in_channels=1, num_classes=10)
 
-# Load the saved model
 loaded_model.load_state_dict(torch.load('MNISTmodel.pth'))
 print(loaded_model)
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+loaded_model.to(device)
+
+# Function to show predictions
+def show_predictions(images, labels, preds):
+    fig, axes = plt.subplots(2, 5, figsize=(10, 4))
+    axes = axes.flatten()
+
+    for i in range(10):
+        axes[i].imshow(images[i].cpu().reshape(28, 28), cmap='gray')
+        color = 'green' if preds[i] == labels[i] else 'red'
+        axes[i].set_title(f"Pred: {preds[i]}, True: {labels[i]}", color=color)
+        axes[i].axis('off')
+
+    plt.tight_layout()
+    plt.show()
+
+# Get predictions for some test images
+dataiter = iter(test_loader)
+images, labels = next(dataiter)
+images, labels = images.to(device), labels.to(device)
+
+outputs = loaded_model(images)
+_, preds = torch.max(outputs, 1)
+
+# Show predictions
+show_predictions(images[:10], labels[:10], preds[:10])
