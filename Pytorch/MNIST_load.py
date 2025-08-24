@@ -17,21 +17,11 @@ test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=Tr
 class CNN(nn.Module):
     def __init__(self, in_channels, num_classes):
 
-
-    #    Building blocks of convolutional neural network.
-
-    #    Parameters:
-    #        * in_channels: Number of channels in the input image (for grayscale images, 1)
-
        super(CNN, self).__init__()
 
-       # 1st convolutional layer
        self.conv1 = nn.Conv2d(in_channels=in_channels, out_channels=8, kernel_size=3, padding=1)
-       # Max pooling layer
        self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
-       # 2nd convolutional layer
        self.conv2 = nn.Conv2d(in_channels=8, out_channels=16, kernel_size=3, padding=1)
-       # Fully connected layer
        self.fc1 = nn.Linear(16 * 7 * 7, num_classes)
     
     def forward(self, x):
@@ -53,7 +43,6 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 loaded_model.to(device)
 
-# Function to show predictions
 def show_predictions(images, labels, preds):
     fig, axes = plt.subplots(2, 5, figsize=(10, 4))
     axes = axes.flatten()
@@ -67,7 +56,6 @@ def show_predictions(images, labels, preds):
     plt.tight_layout()
     plt.show()
 
-# Get predictions for some test images
 dataiter = iter(test_loader)
 images, labels = next(dataiter)
 images, labels = images.to(device), labels.to(device)
@@ -75,5 +63,4 @@ images, labels = images.to(device), labels.to(device)
 outputs = loaded_model(images)
 _, preds = torch.max(outputs, 1)
 
-# Show predictions
 show_predictions(images[:10], labels[:10], preds[:10])
