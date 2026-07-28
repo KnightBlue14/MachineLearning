@@ -1,0 +1,17 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+env
+dataset
+Ollama/__pycache__/*
+Ollama/.ipynb_checkpoints/*
+Ollama/chroma/*
+.vscode
+HuggingFace/huggingface
+HuggingFace/.ipynb_checkpoints/*
+Pytorch/.ipynb_checkpoints/*
+LogisticRegression/.ipynb_checkpoints/*
+Agents/.ipynb_checkpoints/*
+.ipynb_checkpoints
+Classifier/.ipynb_checkpoints/*
+.Trash-0
+Classifier/kagglehub
+Classifier/Chessman-image-dataset
