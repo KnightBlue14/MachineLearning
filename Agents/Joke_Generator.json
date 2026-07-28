@@ -1,0 +1,83 @@
+{
+  "name": "Joke_Generator",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8bd394ce-9c13-4289-8dff-3517a6d42ad4",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "llama3.1:latest",
+          "mode": "list",
+          "cachedResultName": "llama3.1:latest"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Tell me a funny joke"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 2,
+          "low_vram": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.ollama",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c3502779-4613-48e1-bfa5-ec81a94ad9fc",
+      "name": "Message a model",
+      "executeOnce": true,
+      "credentials": {
+        "ollamaApi": {
+          "id": "YFtAq803TriwJoq6",
+          "name": "Ollama account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "94a6f862-f744-44a1-8589-ba0d7a11df86",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7ea46e54a93be9c76279e48062abff66c49cacb43250fcd57bcfaf69a470e920"
+  },
+  "id": "zxw6PB7dfpxoQrdXjgzxB",
+  "tags": []
+}

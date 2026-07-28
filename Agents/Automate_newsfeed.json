@@ -1,0 +1,158 @@
+{
+  "name": "Automate_newsfeed",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        -16
+      ],
+      "id": "e7dad6a4-5dd6-4557-a6a9-a429e3299508",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://www.bleepingcomputer.com/feed",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -48,
+        -16
+      ],
+      "id": "0c9d30a0-fd33-454f-9896-853c3876a476",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=Here is an article from {{ $('RSS Read').item.json.creator }} about {{ $('RSS Read').item.json.categories[0] }}\n\n{{ $('RSS Read').item.json.title }}\n{{ $('RSS Read').item.json.pubDate }}\n{{ $('RSS Read').item.json.link }}\n\nTo summarise -\n{{ $json.content }}\n",
+        "options": {
+          "wait": true
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        656,
+        -16
+      ],
+      "id": "f4ae4f89-2ef0-440c-bc9e-7faa452a50f3",
+      "name": "Discord",
+      "webhookId": "19232ceb-0f44-4651-b04a-02499ff2f628",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "apE7v9xJGxRv9BWW",
+          "name": "Discord RSS Webhook"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        160,
+        -16
+      ],
+      "id": "27d5c7f1-14e5-496f-8a8b-825c5e9f6721",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "llama3.1:latest",
+          "mode": "list",
+          "cachedResultName": "llama3.1:latest"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Summarise the following article -\n\n {{ $json.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.ollama",
+      "typeVersion": 1,
+      "position": [
+        336,
+        -16
+      ],
+      "id": "3d24e0d3-a7cd-4122-aea8-3bce1c99b1c0",
+      "name": "Message a model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "YFtAq803TriwJoq6",
+          "name": "Ollama account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "8e1187c4-d1a7-491b-9c72-6aa0764d348d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7ea46e54a93be9c76279e48062abff66c49cacb43250fcd57bcfaf69a470e920"
+  },
+  "id": "Tjb1URjwiNL1tnO6-850O",
+  "tags": []
+}
