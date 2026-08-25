@@ -4,7 +4,7 @@ A classifier refers to a Machine Learning model that can make use of computer vi
 
 ## Description
 
-A classifier uses similar principles to Logistic Regression, which I covered in another folder. By repeatedly exposing the model to an input, then testing it against another, similar input, it can be refined over multiple iterations to become very good, but not perfect, at predicting the output - that is, predicting what card it is looking at.
+A classifier uses similar principles to Logistic Regression, which I covered in another folder. By repeatedly exposing the model to an input, then testing it against another, similar input, it can be refined over multiple iterations to become very good, but not perfect, at predicting the output.
 
 Similarly, a model can be used to track faces, even under different lighting conditions, different angles, different accessories, etc. In this case, I will be using a prebuilt model available with the dlib library, as it is general purpose enough to work with just a single image, rather than compiling thousands of them to build my own model.
 
@@ -18,7 +18,7 @@ First, we need to build the basic skeleton of our model. After setting up anothe
 
 Then, we can begin the training loop. I have used 10 iterations for this, though you can use more or less as needed. Make sure the device is set to use your gpu, if available, or it will take longer. In the first phase, the model is exposed to the training dataset, and performance is judged based on the training loss. If it guesses correctly, this loss is smaller, but if it guesses incorrectly, the loss will be higher. Here we are using the Cross-Entropy Loss function to calculate the confidence of the prediction, then feeding it into the Adam optimiser to adjust the models learning process. Different functions will have their strengths and weaknesses, but these are good general use models for this purpose.
 
-In the validation phase, we do the same thing, but using the validation dataset. The difference is that this is presenting cards that the model has not seen yet, as opposed to those it was trained on, checking it's ability to judge new material. 
+In the validation phase, we do the same thing, but using the validation dataset. The difference is that this is presenting cards that the model has not seen yet, as opposed to those it was trained on, checking it's ability to judge new material. This is important because it allows us to check for underfitting, in which case both losses would remain high and the model is performing poorly overall, but also overfitting, where training loss would be low but the validation loss high. This would occur if the model has been overtrained, meaning it is very good at checking the training data, but performs poorly in real world scenarios with data it has not been trained on.
 
 Both losses are also added to lists to track them over time. In the graph, we can see that initially loss is very high, but drops over time, showing that the model is more accurately identifying cards as the number of iterations increases, bottoming out at around 7 across multiple loops of training. It isn't perfect, as this method means the confidence will never be 100%, but it can be trusted to guess correctly most of the time.
 
