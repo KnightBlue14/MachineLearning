@@ -17,3 +17,6 @@ Classifier/kagglehub
 Classifier/Chessman-image-dataset
 Classifier/frames
 Classifier/frames.zip
+Agents/.ipynb_checkpoints/*
+Agents/__pycache__/*
+
