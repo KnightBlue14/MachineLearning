@@ -33,3 +33,7 @@ Here, I will be using Chinook, an openly available databse modelling a music sto
 To begin, we set up our model, and download the database to a local path, then perform some simple operations to confirm the contents. Next, we assign our tools. In this case, langchain_communtiy has some packages bundled, which we can use for our purposes, allowing our model to perform querys, check the structure, and even check if the query is valid. Then, we write up a system prompt to better define the agent's behaviour, telling it to build a query, limiting the output to save on needless performance, and to not make any adjustments to the table, only read the contents. Finally, we build our agent, assigning the model, tools and system prompt.
 
 That done, we can prompt the model to read the database and answer questions, in this case which genre has the longest tracks on average. For this, I had the model print out each step of the stream, to better illustrate what it is doing. We can see from the output that it correctly calls the tables, pulls the schema, writes a functional query to answer the question, then outputs the result, again using language comprehension to make it more human readable.
+
+## Active agent
+
+Now for something special. So far, our agents have been passive, only reading information that already exists. Now, I will be moving on to an agent with full read/write capability
