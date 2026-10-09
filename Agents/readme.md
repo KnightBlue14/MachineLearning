@@ -36,4 +36,22 @@ That done, we can prompt the model to read the database and answer questions, in
 
 ## Active agent
 
-Now for something special. So far, our agents have been passive, only reading information that already exists. Now, I will be moving on to an agent with full read/write capability
+Now for something special. So far, our agents have been passive, only reading information that already exists. Now, I will be moving on to an agent with full read/write capability, and makes active use of session memory, allowing it to act on information we give it during prompts.
+
+DISCLAIMER - Doing this will grant an agent access to your system, and the ability to modify and delete files. If you want to experiment with it, do so in a containerised environment, and with files you are prepared to lose if they cannot be restored.
+
+In Agent.ipynb, we first set up our agent just as before - assign a model, system prompt and initialise the messages list. That done, we build our functions. These ones are quite simple, but are demonstrative of basic tasks the agent can perform on our behalf -
+```
+- List files in a directory
+- Read the contents of a file
+- Write a file, creating one if it does not already exist
+- Run a shell command
+```
+
+Then, we set up a quick dictionary and schema the agent can use to select a tool, plus another function to pass the required arguments into the tool, then pass the result back to the LLM, with a try clause to not break the session if something goes wrong.
+
+Finally, we set up the main agent loop, defining chat parameters, assigning the tools, and deciding when to break the interaction after the tools have been used. Make sure it is in a while loop, so the bot can, if needed, run multiple commads in sequence. All that's left is a quick interface function so we can send requests, also in a whiel loop for a longer running session.
+
+The first block of this session shows the chat log (The tool calls are shown because I included a print function in the tool_call block for assessment, you don't need it). I introduce myself as 'Jacob', and ask it to use the list function to show all files in the directory, which it does successfully, though it does initially try to show the wrong directory, targeting the Documents folder, despite the default being this directory. I then ask it to write a command and save it to a text file. The agent makes the same mistake, leaving it unable to save the file, requiring me to directly tell it to use this directory. Note that I only refer to myself as Jacob in the first prompt, and yet the agent not only tries to access a directory under that name, but also successfully writes the file using this name. This is because the agent is making full use of the messages list, referring to it for information not directly provided in the prompt.
+
+The second block shows an agent being used for file functions. Much like before, I write a text file, in this case pulling from the Wikipedia page for the first Iron Man film, and asking for a summary. I then tell the agent to delete the file, which it waits for permission to do, and removes it. Thsi is a simple example, but shows that the agent has been given the capability to run shell commands, allowing it to perform larger operations.
